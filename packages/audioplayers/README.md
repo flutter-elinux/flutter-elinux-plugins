@@ -23,7 +23,7 @@ dependencies:
   audioplayers: ^6.0.0
   audioplayers_elinux:
     git:
-      url: https://github.com/sony/flutter-elinux-plugins.git
+      url: https://github.com/flutter-elinux/flutter-elinux-plugins.git
       path: packages/audioplayers
       ref: main
 ```
