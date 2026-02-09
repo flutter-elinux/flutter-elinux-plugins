@@ -67,6 +67,30 @@ class AudioplayersElinuxPlugin : public flutter::Plugin {
             plugin_pointer->HandleGlobalMethodCall(call, std::move(result));
           });
     }
+    {
+      auto global_event_channel =
+          std::make_unique<flutter::EventChannel<flutter::EncodableValue>>(
+              registrar->messenger(), "xyz.luan/audioplayers.global/events",
+              &flutter::StandardMethodCodec::GetInstance());
+      auto global_event_channel_handler = std::make_unique<
+          flutter::StreamHandlerFunctions<flutter::EncodableValue>>(
+          // StreamHandlerFunctions
+          [](const flutter::EncodableValue* arguments,
+             std::unique_ptr<flutter::EventSink<flutter::EncodableValue>>&&
+                 events)
+              -> std::unique_ptr<
+                  flutter::StreamHandlerError<flutter::EncodableValue>> {
+            return nullptr;
+          },
+          // StreamHandlerCancel
+          [](const flutter::EncodableValue* arguments)
+              -> std::unique_ptr<
+                  flutter::StreamHandlerError<flutter::EncodableValue>> {
+            return nullptr;
+          });
+      global_event_channel->SetStreamHandler(
+          std::move(global_event_channel_handler));
+    }
     registrar->AddPlugin(std::move(plugin));
   }
 
