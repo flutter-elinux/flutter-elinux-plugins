@@ -197,7 +197,14 @@ class AudioplayersElinuxPlugin : public flutter::Plugin {
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
     const std::string &method_name = method_call.method_name();
-    if (method_name == "setAudioContext") {
+    if (method_name == "init") {
+      for (auto& pair : audio_players_) {
+        audio_players_.erase(pair.first);
+        event_sinks_.erase(pair.first);
+      }
+      audio_players_.clear();
+      result->Success();
+    } else if (method_name == "setAudioContext") {
       result->NotImplemented();
     } else if (method_name == "emitLog") {
       result->NotImplemented();
