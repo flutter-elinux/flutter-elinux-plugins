@@ -2,8 +2,8 @@ name: joystick
 description: A Flutter plugin for getting information about and controlling the
   joystick on eLinux.
 version: 1.0.1
-homepage: https://github.com/sony/flutter-elinux-plugins
-repository: https://github.com/sony/flutter-elinux-plugins/tree/main/packages/joystick
+homepage: https://github.com/flutter-elinux/flutter-elinux-plugins
+repository: https://github.com/flutter-elinux/flutter-elinux-plugins/tree/main/packages/joystick
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

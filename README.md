@@ -1,13 +1,13 @@
 # Flutter plugins for eLinux
 
-This repo is a companion repo to the [flutter-elinux](https://github.com/sony/flutter-elinux). It contains the source code for Flutter plugins for eLinux. Check the packages directory for all plugins.
+This repo is a companion repo to the [flutter-elinux](https://github.com/flutter-elinux/flutter-elinux). It contains the source code for Flutter plugins for eLinux. Check the packages directory for all plugins.
 
 ### Repositories
 
-- [flutter-elinux](https://github.com/sony/flutter-elinux): Flutter tools for eLinux
-- [flutter-elinux-plugins](https://github.com/sony/flutter-elinux-plugins): Flutter plugins for eLinux
-- [flutter-embedded-linux](https://github.com/sony/flutter-embedded-linux): eLinux embedding for Flutter
-- [meta-flutter](https://github.com/sony/meta-flutter): Yocto recipes of eLinux embedding for Flutter
+- [flutter-elinux](https://github.com/flutter-elinux/flutter-elinux): Flutter tools for eLinux
+- [flutter-elinux-plugins](https://github.com/flutter-elinux/flutter-elinux-plugins): Flutter plugins for eLinux
+- [flutter-embedded-linux](https://github.com/flutter-elinux/flutter-embedded-linux): eLinux embedding for Flutter
+- [meta-flutter](https://github.com/flutter-elinux/meta-flutter): Yocto recipes of eLinux embedding for Flutter
 
 ## Plugins
 
@@ -26,4 +26,10 @@ The plugins for elinux are basically designed to be API compatible with the offi
 ## Getting Started
 
 For help getting started with Flutter for eLinux, view our online
-[documentation](https://github.com/sony/flutter-elinux/wiki).
+[documentation](https://github.com/flutter-elinux/flutter-elinux/wiki).
+
+## Thanks
+
+This repository was previously hosted on [sony/flutter-elinux-plugins](https://github.com/sony/flutter-elinux-plugins). Thanks to sony for creating these plugins and maintaining them for 4 years.
+
+

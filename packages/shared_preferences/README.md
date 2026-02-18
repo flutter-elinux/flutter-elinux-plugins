@@ -9,7 +9,7 @@ The eLinux implementation of [`shared_preferences`](https://github.com/flutter/p
 dependencies:
   shared_preferences_elinux:
     git:
-      url: https://github.com/sony/flutter-elinux-plugins.git
+      url: https://github.com/flutter-elinux/flutter-elinux-plugins.git
       path: packages/shared_preferences
       ref: main
 ```

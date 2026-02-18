@@ -24,7 +24,7 @@ dependencies:
   video_player: ^2.6.1
   video_player_elinux:
     git:
-      url: https://github.com/sony/flutter-elinux-plugins.git
+      url: https://github.com/flutter-elinux/flutter-elinux-plugins.git
       path: packages/video_player
       ref: main
 ```
