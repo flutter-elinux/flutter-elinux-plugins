@@ -69,6 +69,7 @@ class GstVideoPlayer {
   void GetVideoSize(int32_t& width, int32_t& height);
 #ifdef USE_EGL_IMAGE_DMABUF
   void UnrefEGLImage();
+  void UnrefEGLContext();
 #endif  // USE_EGL_IMAGE_DMABUF
 
   GstVideoElements gst_;
@@ -89,7 +90,9 @@ class GstVideoPlayer {
   GstVideoInfo gst_video_info_;
   GstEGLImage* gst_egl_image_ = NULL;
   GstGLContext* gst_gl_ctx_ = NULL;
+  GstGLContext* gst_gl_ctx_wrapped_ = NULL;
   GstGLDisplayEGL* gst_gl_display_egl_ = NULL;
+  void* egl_context_ = NULL;
 #endif  // USE_EGL_IMAGE_DMABUF
 };
 

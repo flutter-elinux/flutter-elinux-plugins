@@ -28,6 +28,7 @@ GstVideoPlayer::GstVideoPlayer(
 GstVideoPlayer::~GstVideoPlayer() {
 #ifdef USE_EGL_IMAGE_DMABUF
   UnrefEGLImage();
+  UnrefEGLContext();
 #endif  // USE_EGL_IMAGE_DMABUF
   Stop();
   DestroyPipeline();
@@ -198,16 +199,27 @@ void* GstVideoPlayer::GetEGLImage(void* egl_display, void* egl_context) {
   GstMemory* memory = gst_buffer_peek_memory(gst_.buffer, 0);
   if (gst_is_dmabuf_memory(memory)) {
     UnrefEGLImage();
-
-    gint fd = gst_dmabuf_memory_get_fd(memory);
-    gst_gl_display_egl_ =
-        gst_gl_display_egl_new_with_egl_display(reinterpret_cast<gpointer>(egl_display));
-    gst_gl_ctx_ = gst_gl_context_new_wrapped(
-        GST_GL_DISPLAY_CAST(gst_gl_display_egl_), reinterpret_cast<guintptr>(egl_context),
-        GST_GL_PLATFORM_EGL, GST_GL_API_GLES2);
+    if (egl_context_ != egl_context) {
+      UnrefEGLContext();
+      gst_gl_display_egl_ = gst_gl_display_egl_new_with_egl_display(
+          reinterpret_cast<gpointer>(egl_display));
+      gst_gl_ctx_ =
+          gst_gl_context_new(GST_GL_DISPLAY_CAST(gst_gl_display_egl_));
+      gst_gl_ctx_wrapped_ =
+          gst_gl_context_new_wrapped(GST_GL_DISPLAY_CAST(gst_gl_display_egl_),
+                                     reinterpret_cast<guintptr>(egl_context),
+                                     GST_GL_PLATFORM_EGL, GST_GL_API_GLES2);
+      if (!gst_gl_context_create(gst_gl_ctx_, gst_gl_ctx_wrapped_, NULL)) {
+        UnrefEGLContext();
+        std::cerr << "Failed to create a gst_gl_context" << std::endl;
+        return nullptr;
+      }
+      egl_context_ = egl_context;
+    }
 
     gst_gl_context_activate(gst_gl_ctx_, TRUE);
 
+    gint fd = gst_dmabuf_memory_get_fd(memory);
     gst_egl_image_ =
         gst_egl_image_from_dmabuf(gst_gl_ctx_, fd, &gst_video_info_, 0, 0);
     return reinterpret_cast<void*>(gst_egl_image_get_image(gst_egl_image_));
@@ -218,10 +230,21 @@ void* GstVideoPlayer::GetEGLImage(void* egl_display, void* egl_context) {
 void GstVideoPlayer::UnrefEGLImage() {
   if (gst_egl_image_) {
     gst_egl_image_unref(gst_egl_image_);
-    gst_object_unref(gst_gl_ctx_);
-    gst_object_unref(gst_gl_display_egl_);
     gst_egl_image_ = NULL;
+  }
+}
+
+void GstVideoPlayer::UnrefEGLContext() {
+  if (gst_gl_ctx_wrapped_) {
+    gst_object_unref(gst_gl_ctx_wrapped_);
+    gst_gl_ctx_wrapped_ = NULL;
+  }
+  if (gst_gl_ctx_) {
+    gst_gl_context_destroy(gst_gl_ctx_);
     gst_gl_ctx_ = NULL;
+  }
+  if (gst_gl_display_egl_) {
+    gst_object_unref(gst_gl_display_egl_);
     gst_gl_display_egl_ = NULL;
   }
 }
